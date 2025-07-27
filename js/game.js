@@ -88,8 +88,8 @@ function startClassicMode(gm) {
 }
 
 function loadLevel(lvl) {
+  document.getElementById('startmusic').pause();
   audioElement.src = "static/audiomenu/separator_level_" + lvl + ".mp3"
-
   audioElement.play();
   currentAudio = audioElement
 
