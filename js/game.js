@@ -82,13 +82,14 @@ function startClassicMode(gm) {
   gameContainer = document.getElementById("game-container");
   document.addEventListener("keyup", skipSeparator);
   document.addEventListener("click", skipSeparator);
-  document.getElementById('startmusic').pause();
+
+  document.getElementById("startmusic").pause();
 
   startGame();
 }
 
 function loadLevel(lvl) {
-  document.getElementById('startmusic').pause();
+  document.getElementById("startmusic").pause();
   audioElement.src = "static/audiomenu/separator_level_" + lvl + ".mp3"
   audioElement.play();
   currentAudio = audioElement
@@ -141,6 +142,7 @@ function showLevelSeparator(level) {
 function renderQuestion() {
   audioElement.currentTime = 0;
   audioElement.pause()
+  document.getElementById("startmusic").pause();
 
   document.removeEventListener("click", skipSeparator);
   document.removeEventListener("keyup", skipSeparator)
