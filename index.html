@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ca">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <head>
+    <meta charset="utf-8"/>
+    <title>El Gran Dictat</title>
+    <link rel="stylesheet" href="style.css"/>
+    <script src="data/audio_word_map.js"></script>
+    <script defer src="js/game.js"></script>
+  </head>
+  <body>
+    <div class="start-screen" id="start-screen">
+    <audio loop autoplay src="static/audiomenu/game_music.mp3" id="startmusic"></audio>
+      <div style="position: absolute; top: 20px; left: 20px;">
+        <button class="boto-info" style="margin-top: 2vh;" disabled onclick="openInfo()"><span class="bl2">ⓘ</span></button>
+      </div>
+      <div style="position: absolute; top: 20px; right: 20px;">
+        <button class="boto-inici" style="margin-top: 2vh;" disabled onclick="openRankings()"><span class="bl1">RÀNQUING</span></button>
+      </div>
+
+      <div class="title"><span class="tl1">EL GRAN</span><span class="tl2">DICTAT</span></div>
+
+      <!-- Botons de joc -->
+      <div class="botonera"">
+        <button class="btn btn-lg boto-inici" onclick="startClassicMode(0)"><span class="bl3">JOC</span><br><span class="bl4">CLÀSSIC</span></button>
+        <button class="btn btn-lg boto-inici-central" onclick="startClassicMode(1)"><span class="bl1">JOC</span><br><span class="bl2">DIARI</span></button>
+        <button class="btn btn-lg boto-inici" onclick="mostrarPopup()"><span class="bl3">JOC PER</span><br><span class="bl4">NIVELLS</span></button>
+      </div>
+
+
+      <!-- Pop-up amb els nivells -->
+      <div id="popup-nivells" class="popup-nivells">
+        <div class="popup-contingut">
+          <h2>15 preguntes del nivell que triïs</h2>
+          <div class="nivell-botons">
+            <button class="boto-popup" onclick="startClassicMode(2)"><span class="pl1">NIVELL 1</span><br><span class="pl2">Per començar està bé</span></button>
+            <button class="boto-popup" onclick="startClassicMode(3)"><span class="pl1">NIVELL 2</span><br><span class="pl2">Ja no val escriure com sona</span></button>
+            <button class="boto-popup" onclick="startClassicMode(4)"><span class="pl1">NIVELL 3</span><br><span class="pl2">Aquí cau més d'un filòleg</span></button>
+            <button class="boto-popup" onclick="startClassicMode(5)"><span class="pl1">NIVELL 4</span><br><span class="pl2">Ortografia ninja activada</span></button>
+            <button class="boto-popup" onclick="startClassicMode(6)"><span class="pl1">NIVELL 5</span><br><span class="pl2">Aquí ni l'Òscar</span></button>
+          </div>
+          <button class="tancar" onclick="tancarPopup()">Tancar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="separator" class="separator">
+      <div class="nivell-titol" id="nivell-titol">PRIMER NIVELL</div>
+      <div class="nivell-info" id="nivell-info">5 PARAULES</div>
+      <div class="nivell-punts" id="nivell-punts">15 PUNTS PER CADA ENCERT</div>
+      <div class="nivell-continuar">TOCA LA PANTALLA PER CONTINUAR</div>
+    </div>
+
+
+    <div id="game-container" style="display:none;">
+      <div class="row">
+        <div class="col left" id="level-points">x1</div>
+        <div class="col-6 middle" id="timerbox"><div id="timer" class="barrel-text">⏲ 15.0</div></div>
+        <div class="col right" id="scorebox"><div id="score" class="barrel-text">00000</div></div>
+      </div>
+      <audio id="audio"></audio>
+      <input class="paraula-escrita" style="text-transform: uppercase" id="user-input" placeholder="Escriu la paraula" type="text"/>
+      <button hidden onclick="submitAnswer()"> </button>
+      <div id="feedback" class="paraula-bona"></div>
+    </div>
+
+    <div class="resultat-container" hidden>
+      <div class="tl1">HAS ACABAT LA PARTIDA!</div>
+      <div class="tl2">Has encertat ${encerts} paraules d’un total de ${total} i has sumat ${punts} punts</div>
+      <table class="taula-resultats">
+        <tr>
+          <th>PARAULA</th>
+          <th>RESPOSTA</th>
+        </tr>
+        ${resultHTML}
+      </table>
+      <div class="botonera">
+        <button class="boto-inici" hidden onclick="location.reload()">TORNA A COMENÇAR</button>
+      </div>
+    </div>
+
+
+  </body>
+</html>

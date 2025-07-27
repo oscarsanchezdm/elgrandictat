@@ -1,0 +1,350 @@
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: black;
+  background-color: #F55353;
+}
+
+.row {
+  margin: 0 0 0 0;
+}
+
+.left {
+  background-color: #F55353;
+  color: white;
+  height: 15vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4em;
+  font-weight: bold;
+}
+
+.middle {
+  background-color: black;
+  color: white;
+  height: 15vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4em;
+  font-weight: bold;
+}
+
+.right {
+  background-color: black;
+  height: 15vmin;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4em;
+  font-weight: bold;
+}
+
+.paraula, .paraula-bona, .paraula-escrita {
+  font-size: 6em;
+  text-align: center;
+  border: 0px solid #ccc;
+  
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+
+  padding: 0 0 0 0;
+}
+
+.paraula-bona {
+  align-items: center;
+  flex-direction: row;
+  display: flex;
+  color: white;
+  height: 55vh;
+}
+
+.paraula-escrita {
+  background-color: white;
+  height: 35vh;
+}
+
+#game-container {
+  text-align: center;
+  padding: 0px 0px 0px 0px;
+}
+
+.feedback-mode {
+  background-color: red;
+  color: white;
+}
+
+.start-screen {
+  background-color: white;
+  height: 100vh;
+}
+
+.boto-inici, .boto-inici-central, .boto-info {
+  background-color: black;
+  color: white;
+  white-space: normal;
+
+  margin-left: 1vw;
+  margin-right: 1vw;
+
+  height: 10vw;
+  width: 25vw;
+
+  border-radius: 5vw;
+  line-height: 1.2;
+
+  white-space: normal;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  font-weight: bold;
+
+}
+
+.boto-inici-central {
+  height: 15vw;
+  width: 40vw;
+  border-radius: 7.5vw;
+  cursor: pointer;
+  background-color: red;
+  border: 0px;
+}
+
+.boto-info{
+  height: 10vw;
+  width: 10vw;
+  font-size: 4vw;
+}
+
+.botonera {
+  width: 100vw;
+  display: flex; 
+  justify-content: center; 
+  position: absolute;
+  bottom: 15vh
+}
+
+.bl1 {
+  font-size: 4vw;
+}
+
+.bl2 {
+  font-size: 6vw;
+}
+
+.bl3 {
+  font-size: 2vw;
+}
+
+.bl4 {
+  font-size: 3vw;
+}
+
+.title, .tl1, .tl2, .tl3, .tl4 {
+  white-space: normal;
+  text-align: center;
+  line-height: 0.6em;
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  font-weight: bold;
+}
+
+.tl1 {
+  margin-top: 20vh;
+  font-size: 15vmin;
+  color: red
+}
+
+.tl2{
+  font-size: 8vmin;
+}
+
+.separator {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  text-align: left;
+  z-index: 999;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  padding-left: 10vw;
+  line-height: 1.1; /* Redueix l'espai entre línies */
+}
+
+.separator > div {
+  margin: 1vh 0; /* Menys espai vertical entre elements */
+}
+
+.nivell-titol {
+  font-size: 9vmin;
+  color: #F55353;
+}
+
+.nivell-info,
+.nivell-punts {
+  font-size: 5vmin;
+}
+
+.nivell-continuar {
+  font-size: 4vmin;
+  color: gray;
+  margin-top: 2vh;
+}
+
+.barrel-text {
+  animation: slideIn 0.5s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .botonera {
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+  }
+
+  .boto-inici, .boto-inici-central {
+    width: 80vw;
+    height: auto;
+    border-radius: 7.5vw;
+    font-size: 1.5em;
+  }
+}
+
+.popup-nivells {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-contingut {
+  background-color: white;
+  padding: 5vw;
+  border-radius: 5vw;
+  text-align: center;
+  width: 80vw;
+  max-width: 1000px;
+}
+
+.pl2{
+  font-size: 0.3em;
+}
+
+.nivell-botons button {
+  line-height: 0.5;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 2vw;
+  padding: 2vw 4vw;
+  margin: 10px;
+  font-size: 3em;
+  cursor: pointer;
+  max-width: 800px;
+  max-height: 200px;
+}
+
+.tancar {
+  margin-top: 3vw;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 2vw;
+  padding: 2vw 4vw;
+  font-size: 3em;
+  cursor: pointer;
+  max-width: 800px;
+  max-height: 200px;
+}
+
+.resultat-container {
+  background-color: white;
+  color: black;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 5vh 5vw;
+  text-align: left;
+  height: 100vh;
+}
+
+.tl3 {
+  margin-top: 20vh;
+  font-size: 4vmin;
+  color: red;
+  line-height: 1.6em;
+}
+
+.tl4{
+  font-size: 4vmin;
+  line-height: 1.6em;
+}
+
+.taula-resultats {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4vh;
+  font-size: 2.5vmin;
+}
+
+.taula-resultats th,
+.taula-resultats td {
+  border-bottom: 1px solid #ccc;
+  padding: 1vh 1vw;
+  text-align: left;
+}
+
+.taula-resultats th {
+  color: red;
+  font-weight: bold;
+}
+
+.score {
+  font-weight: bold;
+  color: black;
+}
+
+.resposta-correcta {
+  color: #366826;
+  font-weight: bold;
+}
+
+.resposta-incorrecta {
+  color: #F55353;
+  font-weight: bold;
+}
+
+
