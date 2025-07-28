@@ -1,11 +1,14 @@
-
 const levelsConfig = {
-  "1": { count: 5, points: 15 },
-  "2": { count: 4, points: 25 },
-  "3": { count: 3, points: 75 },
-  "4": { count: 2, points: 150 },
-  "5": { count: 1, points: 300 }
-};
+  "1": { count: 5, points: 15, titol: "PRIMER" },
+  "2": { count: 4, points: 25, titol: "SEGON" },
+  "3": { count: 3, points: 75, titol: "TERCER"  },
+  "4": { count: 2, points: 150, titol: "QUART"  },
+  "5": { count: 1, points: 300, titol: "CINQUÈ"  }
+}; 
+
+//const levelsConfig = {
+//  "1" : { count: 1, points: 15, titol: "PRIMER_PROVES"},
+//}
 
 let level = 1;
 let score = 0;
@@ -14,10 +17,8 @@ let questions = [];
 let answers = [];
 let timer;
 let timeLeft = 15;
-let audioElement = document.getElementById("audio");
+let audioWord = document.getElementById("audio");
 let gamemode = 0; //0 normal; 1 daily; a partir de 2 nivells. 2 nivell 1, 3 nivell 2, etc
-let titols = ["PRIMER", "SEGON", "TERCER", "QUART", "CINQUÈ"];
-
 
 function startGame() {
   background_sound = new Audio(`static/audiomenu/gran_dictat_music.mp3`);
@@ -90,9 +91,9 @@ function startClassicMode(gm) {
 
 function loadLevel(lvl) {
   document.getElementById("startmusic").pause();
-  audioElement.src = "static/audiomenu/separator_level_" + lvl + ".mp3"
-  audioElement.play();
-  currentAudio = audioElement
+  audioWord.src = "static/audiomenu/separator_level_" + lvl + ".mp3"
+  audioWord.play();
+  currentAudio = audioWord
 
   const levelQuestions = Object.entries(audioWordMap)
     .filter(([file]) => file.startsWith(lvl + "-"));
@@ -118,7 +119,7 @@ function showLevelSeparator(level) {
   document.removeEventListener("click", restartAudio);
   document.addEventListener("keyup", skipSeparator)
 
-  document.getElementById('nivell-titol').innerText = `${titols[level - 1]} NIVELL`;
+  document.getElementById('nivell-titol').innerText = `${levelsConfig[level].titol} NIVELL`;
   document.getElementById('nivell-info').innerText = `${levelsConfig[level].count} PARAULES`;
   document.getElementById('nivell-punts').innerText = `${levelsConfig[level].points} PUNTS PER CADA ENCERT`;
 
@@ -140,12 +141,13 @@ function showLevelSeparator(level) {
 }
 
 function renderQuestion() {
-  audioElement.currentTime = 0;
-  audioElement.pause()
-  document.getElementById("startmusic").pause();
+  //audioWord.currentTime = 0;
+  //audioWord.pause()
+  document.getElementById("startmusic").pause(); //no hauria de fer falta però amb Safari hi ha problemes
 
   document.removeEventListener("click", skipSeparator);
-  document.removeEventListener("keyup", skipSeparator)
+  document.removeEventListener("keyup", skipSeparator);
+  
   document.addEventListener("click", restartAudio);
   if (current >= questions.length) {
     const nextLevel = level + 1;
@@ -159,7 +161,7 @@ function renderQuestion() {
   }
 
   const [audioFile, correctWord] = questions[current];
-  audioElement.src = `static/audiowords/${audioFile}`;
+  audioWord.src = `static/audiowords/${audioFile}`;
   document.getElementById("score").textContent = `${score.toString().padStart(5, '0')}`;
   document.getElementById("level-points").textContent = `x${levelsConfig[level].points}`;
   document.getElementById("feedback").textContent = "";
@@ -170,7 +172,7 @@ function renderQuestion() {
   uinp.focus()
   uinp.style.color="black"
 
-  audioElement.play()
+  audioWord.play()
   
   startTimer();
 }
@@ -192,7 +194,7 @@ function startTimer() {
     document.getElementById("timer").textContent = '⏲ '+(timeLeft / 10).toFixed(1);
     if (timeLeft <= 0) {
       clearInterval(timer);
-      submitAnswer(true);
+      submitAnswer();
     }
   }, 100); // cada 0.1 segons
 }
@@ -201,16 +203,15 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function submitAnswer(timeout = false) {
+async function submitAnswer() {
   //background_sound.pause()
   clearInterval(timer);
   const userInput = document.getElementById("user-input").value.trim().toUpperCase();
   document.getElementById("user-input").disabled = true;
   const correctAnswer = questions[current][1].toUpperCase();
-  const isCorrect = !timeout && userInput === correctAnswer;
+  const isCorrect = userInput === correctAnswer;
 
   typewriter_sound = new Audio('static/audiomenu/nova.mp3')
-  feedback_sound = new Audio(`static/audiomenu/error.mp3`);
 
   var i = 0;
   var speed = 35; /* The speed/duration of the effect in milliseconds */
@@ -221,6 +222,7 @@ async function submitAnswer(timeout = false) {
         setTimeout(typeWriter, speed);
     }
   }
+  
   typewriter_sound.play()
   typeWriter()
 
@@ -229,24 +231,26 @@ async function submitAnswer(timeout = false) {
 
   if (isCorrect) {
     score += levelsConfig[level].points;
-    score += Math.ceil(parseInt((10 + timeLeft)*levelsConfig[level].points/10) / 5) * 5
+    score += Math.ceil(parseInt(timeLeft*levelsConfig[level].points/10) / 5) * 5
     feedback_sound = new Audio(`static/audiomenu/acierto.mp3`);
-    //document.getElementById("feedback").textContent = correctAnswer;
     document.getElementById("user-input").style.color="#366826";
+
+    //Animació apujar punts
     const score_el = document.getElementById("score");
     score_el.classList.remove('barrel-text');
     void score_el.offsetWidth;
     score_el.classList.add('barrel-text')
     score_el.textContent = `${score.toString().padStart(5, '0')}`;
-  } else {
-    //document.getElementById("feedback").textContent = correctAnswer;
+    }
+  else {
+    feedback_sound = new Audio(`static/audiomenu/error.mp3`);
     document.getElementById("user-input").style.color="#F55353";
   }
 
   feedback_sound.play()
   answers.push([correctAnswer, userInput, isCorrect]);
   current++;
-  setTimeout(renderQuestion, 1500);
+  setTimeout(renderQuestion, 2000);
 }
 
 function renderResult() {
@@ -267,29 +271,37 @@ function renderResult() {
     </tr>
   `).join("");
 
-  document.body.innerHTML = `
-    <div class="resultat-container">
-      <div class="tl3">HAS ACABAT LA PARTIDA!</div>
-      <div class="tl4">Has encertat ${encerts} paraules d'un total de ${total} i has sumat ${punts} punts</div>
-      <table class="taula-resultats">
-        <tr>
-          <th>PARAULA</th>
-          <th>RESPOSTA</th>
-          <th></th>
-        </tr>
-        ${resultHTML}
-      </table>
-      <div class="botonera">
-        <button class="boto-inici" onclick="location.reload()">TORNA A COMENÇAR</button>
-      </div>
-    </div>
+  // Amaguem les altres pantalles
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("game-container").style.display = "none";
+  document.getElementById("separator").style.display = "none";
+
+  // Mostrem la pantalla de resultats
+  const container = document.querySelector(".resultat-container");
+  container.hidden = false;
+  container.innerHTML = `
+    <div class="tl3">FINAL DE PARTIDA!</div>
+    <div class="tl4">Has encertat ${encerts} paraules d'un total de ${total} i has sumat ${punts} punts</div>
+    <table class="taula-resultats">
+      <tr>
+        <th>PARAULA</th>
+        <th>RESPOSTA</th>
+        <th></th>
+      </tr>
+      ${resultHTML}
+    </table>
   `;
+
+  // Afegim el botó de reinici fixat
+  const boto = document.createElement("button");
+  boto.className = "boto-reiniciar";
+  boto.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="60%" height="60%">
+    <path d="M12 5V1L7 6l5 5V7c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5H5c0 3.87 3.13 7 7 7s7-3.13 7-7-3.13-7-7-7z"/>
+  </svg>`;
+  boto.onclick = () => location.reload();
+  document.body.appendChild(boto);
 }
-
-
-/* function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-} */
 
 function shuffle(array) { 
   for (let i = array.length - 1; i > 0; i--) { 
@@ -298,7 +310,6 @@ function shuffle(array) {
   } 
   return array; 
 } 
-
 
 function seededRandom(seed) {
     let x = Math.sin(seed) * 10000;
@@ -318,10 +329,37 @@ function dateSeededShuffle(array) {
     return shuffled;
 }
 
-
 const restartAudio = () => {
-  if (audioElement) {
-    audioElement.currentTime = 0;
-    audioElement.play();
+  if (audioWord) {
+    audioWord.currentTime = 0;
+    audioWord.play();
+    document.getElementById("user-input").focus()
   }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const muteButton = document.getElementById('mute-button');
+    const gameMusic = document.getElementById("startmusic");
+    gameMusic.loop = true;
+    let isMuted = false;
+
+    muteButton.addEventListener('click', function () {
+        if (isMuted) {
+            gameMusic.play();
+            muteButton.textContent = '🔊';
+        } else {
+            gameMusic.pause();
+            muteButton.textContent = '🔇';
+        }
+        isMuted = !isMuted;
+    });
+
+    // Inicia la música amb la primera interacció si no està mutada
+    const startMusicOnce = () => {
+        if (!isMuted) {
+            gameMusic.play();
+        }
+        document.removeEventListener('click', startMusicOnce);
+    };
+    document.addEventListener('click', startMusicOnce);
+});

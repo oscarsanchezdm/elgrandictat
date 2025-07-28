@@ -1,8 +1,8 @@
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  color: black;
-  background-color: #F55353;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evita scroll global si no cal */
 }
 
 .row {
@@ -61,12 +61,20 @@ body {
   display: flex;
   color: white;
   height: 55vh;
+  background-color: #F55353;
 }
 
 .paraula-escrita {
   background-color: white;
   height: 35vh;
 }
+
+.paraula:disabled {
+  background-color: white !important;
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
 
 #game-container {
   text-align: center;
@@ -88,6 +96,8 @@ body {
   color: white;
   white-space: normal;
 
+  align-items: center;
+
   margin-left: 1vw;
   margin-right: 1vw;
 
@@ -106,6 +116,7 @@ body {
 
   font-weight: bold;
 
+  border: 0px;
 }
 
 .boto-inici-central {
@@ -293,12 +304,18 @@ body {
 }
 
 .resultat-container {
+  position: fixed; /* Ocupa tota la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto; /* Permet scroll si cal */
   background-color: white;
   color: black;
   font-family: 'Segoe UI', sans-serif;
   padding: 5vh 5vw;
   text-align: left;
-  height: 100vh;
+  z-index: 1000; /* Per sobre d'altres elements */
 }
 
 .tl3 {
@@ -317,7 +334,9 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin-top: 4vh;
-  font-size: 2.5vmin;
+  font-size: 2.8vmin; /* Mida més petita per cabre millor */
+  table-layout: fixed; /* Distribueix l'espai de manera uniforme */
+  word-wrap: break-word;
 }
 
 .taula-resultats th,
@@ -325,7 +344,11 @@ body {
   border-bottom: 1px solid #ccc;
   padding: 1vh 1vw;
   text-align: left;
+  vertical-align: middle;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
+
 
 .taula-resultats th {
   color: red;
@@ -347,4 +370,25 @@ body {
   font-weight: bold;
 }
 
+.boto-reiniciar {
+  position: fixed;
+  bottom: 3vh;
+  right: 3vw;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 10vmin;
+  height: 10vmin;
+  font-size: 4vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+.boto-reiniciar:hover {
+  background-color: #F55353;
+}

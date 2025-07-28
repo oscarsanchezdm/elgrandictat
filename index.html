@@ -11,8 +11,11 @@
   <body>
     <div class="start-screen" id="start-screen">
     <audio loop autoplay src="static/audiomenu/game_music.mp3" id="startmusic"></audio>
-      <div style="position: absolute; top: 20px; left: 20px;">
-        <button class="boto-info" style="margin-top: 2vh;" disabled onclick="openInfo()"><span class="bl2">ⓘ</span></button>
+      <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px;">
+        <button class="boto-info" style="margin-top: 2vh;" disabled onclick="openInfo()">
+          <span class="bl2">ⓘ</span>
+        </button>
+        <button id="mute-button" style="margin-top: 2vh;"  class="boto-info" title="Activa/desactiva el so">🔊</button>
       </div>
       <div style="position: absolute; top: 20px; right: 20px;">
         <button class="boto-inici" style="margin-top: 2vh;" disabled onclick="openRankings()"><span class="bl1">RÀNQUING</span></button>
@@ -55,7 +58,7 @@
 
     <div id="game-container" style="display:none;">
       <div class="row">
-        <div class="col left" id="level-points">x1</div>
+        <div class="col left" id="levelpointsbox"><div id="level-points" class="barrel-text">x1</div></div>
         <div class="col-6 middle" id="timerbox"><div id="timer" class="barrel-text">⏲ 15.0</div></div>
         <div class="col right" id="scorebox"><div id="score" class="barrel-text">00000</div></div>
       </div>
@@ -67,7 +70,7 @@
 
     <div class="resultat-container" hidden>
       <div class="tl1">HAS ACABAT LA PARTIDA!</div>
-      <div class="tl2">Has encertat ${encerts} paraules d’un total de ${total} i has sumat ${punts} punts</div>
+      <div class="tl2">Has encertat ${encerts} paraules d'un total de ${total} i has sumat ${punts} punts</div>
       <table class="taula-resultats">
         <tr>
           <th>PARAULA</th>
@@ -75,9 +78,6 @@
         </tr>
         ${resultHTML}
       </table>
-      <div class="botonera">
-        <button class="boto-inici" hidden onclick="location.reload()">TORNA A COMENÇAR</button>
-      </div>
     </div>
 
 
