@@ -1,8 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Evita scroll global si no cal */
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .row {
@@ -29,6 +40,7 @@ html, body {
   justify-content: center;
   font-size: 4em;
   font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .right {
@@ -60,7 +72,7 @@ html, body {
   flex-direction: row;
   display: flex;
   color: white;
-  height: 55vh;
+  height: 50vh;
   background-color: #F55353;
 }
 
@@ -73,6 +85,7 @@ html, body {
   background-color: white !important;
   color: inherit !important;
   opacity: 1 !important;
+  -webkit-text-fill-color: black !important; /* per Safari */
 }
 
 

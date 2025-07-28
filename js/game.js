@@ -140,6 +140,17 @@ function showLevelSeparator(level) {
   }
 }
 
+function focusInput() {
+    const input = document.getElementById('user-input');
+    if (input) {
+        setTimeout(() => {
+            input.focus();
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100); // petit retard per assegurar que el teclat aparegui
+    }
+}
+
+
 function renderQuestion() {
   //audioWord.currentTime = 0;
   //audioWord.pause()
@@ -171,6 +182,8 @@ function renderQuestion() {
   uinp.value = "";
   uinp.focus()
   uinp.style.color="black"
+
+  focusInput()
 
   audioWord.play()
   
@@ -341,17 +354,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const muteButton = document.getElementById('mute-button');
     const gameMusic = document.getElementById("startmusic");
     gameMusic.loop = true;
-    let isMuted = false;
 
     muteButton.addEventListener('click', function () {
-        if (isMuted) {
+        if (gameMusic.paused) {
             gameMusic.play();
             muteButton.textContent = '🔊';
         } else {
             gameMusic.pause();
             muteButton.textContent = '🔇';
         }
-        isMuted = !isMuted;
     });
 
     // Inicia la música amb la primera interacció si no està mutada
