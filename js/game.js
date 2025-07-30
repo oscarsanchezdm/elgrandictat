@@ -140,17 +140,6 @@ function showLevelSeparator(level) {
   }
 }
 
-function focusInput() {
-    const input = document.getElementById('user-input');
-    if (input) {
-        setTimeout(() => {
-            input.focus();
-            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100); // petit retard per assegurar que el teclat aparegui
-    }
-}
-
-
 function renderQuestion() {
   //audioWord.currentTime = 0;
   //audioWord.pause()
@@ -177,19 +166,15 @@ function renderQuestion() {
   document.getElementById("level-points").textContent = `x${levelsConfig[level].points}`;
   document.getElementById("feedback").textContent = "";
 
-  uinp = document.getElementById("user-input")
-  uinp.disabled = false;
+  uinp = document.getElementById("user-input");
+  uinp.readOnly = false;
   uinp.value = "";
-  uinp.focus()
-  uinp.style.color="black"
+  uinp.style.color="black";  
+  uinp.focus();
 
-  focusInput()
-
-  audioWord.play()
-  
+  audioWord.play();
   startTimer();
 }
-
 
 function startTimer() {
   clearInterval(timer);
@@ -220,7 +205,7 @@ async function submitAnswer() {
   //background_sound.pause()
   clearInterval(timer);
   const userInput = document.getElementById("user-input").value.trim().toUpperCase();
-  document.getElementById("user-input").disabled = true;
+  document.getElementById("user-input").readOnly = true;
   const correctAnswer = questions[current][1].toUpperCase();
   const isCorrect = userInput === correctAnswer;
 
@@ -235,7 +220,7 @@ async function submitAnswer() {
         setTimeout(typeWriter, speed);
     }
   }
-  
+
   typewriter_sound.play()
   typeWriter()
 
@@ -331,7 +316,8 @@ function seededRandom(seed) {
 
 function dateSeededShuffle(array) {
     const today = new Date();
-    const seed = parseInt(today.toISOString().slice(0, 10).replace(/-/g, '')); // ex: 20250727
+    const offset = today.getTimezoneOffset()
+    const seed = parseInt(new Date(today.getTime() - (offset*60*1000)).toISOString().slice(0, 10).replace(/-/g, ''));
     let shuffled = array.slice(); // Copiem l'array per no modificar l'original
 
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -346,7 +332,7 @@ const restartAudio = () => {
   if (audioWord) {
     audioWord.currentTime = 0;
     audioWord.play();
-    document.getElementById("user-input").focus()
+    document.getElementById("user-input").focus();
   }
 }
 
@@ -367,8 +353,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Inicia la música amb la primera interacció si no està mutada
     const startMusicOnce = () => {
-        if (!isMuted) {
-            gameMusic.play();
+        if (document.getElementById('startmusic').paused) {
+            document.getElementById('startmusic').play();
         }
         document.removeEventListener('click', startMusicOnce);
     };
